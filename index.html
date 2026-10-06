@@ -6,7 +6,7 @@
 
   <title>Human Article Writer – Natural & SEO-Friendly Articles</title>
 
-  <meta name="description" content="Create natural, useful and SEO-friendly articles with a human-focused AI writing workflow.">
+  <meta name="description" content="Create natural, useful and SEO-friendly articles with clear structure, original ideas and reader-first writing.">
 
   <style>
     * {
@@ -217,10 +217,6 @@
       margin-bottom: 15px;
     }
 
-    .output-header h2 {
-      margin: 0;
-    }
-
     #copyBtn {
       border: 1px solid #dce1eb;
       background: #ffffff;
@@ -296,386 +292,389 @@
 
 <body>
 
-  <header>
-    <div class="header-inner">
+<header>
+  <div class="header-inner">
 
-      <div class="logo">
-        Human<span>Article</span>Writer
-      </div>
-
-      <nav>
-        <a href="#writer">Article Writer</a>
-        <a href="#about">About</a>
-      </nav>
-
+    <div class="logo">
+      Human<span>Article</span>Writer
     </div>
-  </header>
 
-  <main>
+    <nav>
+      <a href="#writer">Article Writer</a>
+      <a href="#about">About</a>
+    </nav>
 
-    <section class="hero">
+  </div>
+</header>
 
-      <div class="badge">
-        NATURAL • USEFUL • SEO-FRIENDLY
-      </div>
+<main>
 
-      <h1>
-        Write Better Articles That Feel
-        <span>Human</span>
-      </h1>
+  <section class="hero">
 
-      <p>
-        Create well-structured articles with natural language, useful information,
-        clear headings and a reader-first approach.
+    <div class="badge">
+      NATURAL • USEFUL • SEO-FRIENDLY
+    </div>
+
+    <h1>
+      Write Better Articles That Feel
+      <span>Human</span>
+    </h1>
+
+    <p>
+      Create useful, original and well-structured articles with natural language,
+      clear explanations and a reader-first writing approach.
+    </p>
+
+  </section>
+
+  <section class="workspace" id="writer">
+
+    <div class="card">
+
+      <h2>Article Writer</h2>
+
+      <p class="card-intro">
+        Enter your topic and requirements. The writing engine will create a
+        complete article designed for real readers and search visibility.
       </p>
 
-    </section>
+      <div class="form-grid">
 
-    <section class="workspace" id="writer">
+        <div class="field">
 
-      <div class="card">
+          <label for="keyword">
+            Main Keyword
+          </label>
 
-        <h2>Article Writer</h2>
-
-        <p class="card-intro">
-          Enter your topic and article requirements. The writing engine will use
-          them to create a complete article.
-        </p>
-
-        <div class="form-grid">
-
-          <div class="field">
-
-            <label for="keyword">
-              Main Keyword
-            </label>
-
-            <input
-              id="keyword"
-              type="text"
-              placeholder="Example: budget hotels near me"
-            >
-
-          </div>
-
-          <div class="field">
-
-            <label for="topic">
-              Article Topic
-            </label>
-
-            <input
-              id="topic"
-              type="text"
-              placeholder="Example: Best Budget Hotels Near Me"
-            >
-
-          </div>
-
-          <div class="field">
-
-            <label for="length">
-              Article Length
-            </label>
-
-            <select id="length">
-
-              <option value="800">
-                800 words
-              </option>
-
-              <option value="1000" selected>
-                1000 words
-              </option>
-
-              <option value="1200">
-                1200 words
-              </option>
-
-              <option value="1500">
-                1500 words
-              </option>
-
-            </select>
-
-          </div>
-
-          <div class="field">
-
-            <label for="tone">
-              Writing Style
-            </label>
-
-            <select id="tone">
-
-              <option value="Natural & Human" selected>
-                Natural & Human
-              </option>
-
-              <option value="Professional">
-                Professional
-              </option>
-
-              <option value="Simple & Easy">
-                Simple & Easy
-              </option>
-
-              <option value="Informative">
-                Informative
-              </option>
-
-            </select>
-
-          </div>
-
-          <div class="field full">
-
-            <label for="notes">
-              Additional Instructions
-            </label>
-
-            <textarea
-              id="notes"
-              placeholder="Add anything important about the article, audience, website or topic..."
-            ></textarea>
-
-          </div>
+          <input
+            id="keyword"
+            type="text"
+            placeholder="Example: budget hotels near me"
+          >
 
         </div>
 
-        <div class="generate-area">
+        <div class="field">
 
-          <button id="generateBtn">
-            Generate Article
-          </button>
+          <label for="topic">
+            Article Topic
+          </label>
+
+          <input
+            id="topic"
+            type="text"
+            placeholder="Example: Best Budget Hotels Near Me"
+          >
 
         </div>
 
-        <p class="note">
-          The article should prioritize usefulness, originality, clarity and natural writing.
-        </p>
+        <div class="field">
+
+          <label for="length">
+            Article Length
+          </label>
+
+          <select id="length">
+
+            <option value="800">
+              800 words
+            </option>
+
+            <option value="1000" selected>
+              1000 words
+            </option>
+
+            <option value="1200">
+              1200 words
+            </option>
+
+            <option value="1500">
+              1500 words
+            </option>
+
+          </select>
+
+        </div>
+
+        <div class="field">
+
+          <label for="tone">
+            Writing Style
+          </label>
+
+          <select id="tone">
+
+            <option value="Natural & Human" selected>
+              Natural & Human
+            </option>
+
+            <option value="Professional">
+              Professional
+            </option>
+
+            <option value="Simple & Easy">
+              Simple & Easy
+            </option>
+
+            <option value="Informative">
+              Informative
+            </option>
+
+          </select>
+
+        </div>
+
+        <div class="field full">
+
+          <label for="notes">
+            Additional Instructions
+          </label>
+
+          <textarea
+            id="notes"
+            placeholder="Add audience, website, country, content requirements, examples or anything else that matters..."
+          ></textarea>
+
+        </div>
 
       </div>
 
-      <div class="card output" id="outputBox">
+      <div class="generate-area">
 
-        <div class="output-header">
-
-          <h2>
-            Your Article
-          </h2>
-
-          <button id="copyBtn">
-            Copy Article
-          </button>
-
-        </div>
-
-        <div id="articleOutput"></div>
+        <button id="generateBtn">
+          Generate Article
+        </button>
 
       </div>
 
-    </section>
+      <p class="note">
+        Focused on useful information, natural language, originality and clear writing.
+      </p>
 
-  </main>
+    </div>
 
-  <footer id="about">
-    Human Article Writer — focused on useful, natural and well-structured content.
-  </footer>
 
-  <script>
+    <div class="card output" id="outputBox">
 
-    const WORKER_URL =
-      "https://human-article-writer.sophiacarter8757.workers.dev/";
+      <div class="output-header">
 
-    const generateBtn =
-      document.getElementById("generateBtn");
+        <h2>
+          Your Article
+        </h2>
 
-    const outputBox =
-      document.getElementById("outputBox");
+        <button id="copyBtn">
+          Copy Article
+        </button>
 
-    const articleOutput =
-      document.getElementById("articleOutput");
+      </div>
 
-    const copyBtn =
-      document.getElementById("copyBtn");
+      <div id="articleOutput"></div>
 
+    </div>
 
-    generateBtn.addEventListener("click", async function () {
+  </section>
 
-      const keyword =
-        document.getElementById("keyword").value.trim();
+</main>
 
-      const topic =
-        document.getElementById("topic").value.trim();
+<footer id="about">
+  Human Article Writer — focused on useful, natural and well-structured content.
+</footer>
 
-      const length =
-        document.getElementById("length").value;
 
-      const tone =
-        document.getElementById("tone").value;
+<script>
 
-      const notes =
-        document.getElementById("notes").value.trim();
+const WORKER_URL =
+  "https://human-article-writer.sophiacarter8757.workers.dev/";
 
 
-      if (!keyword || !topic) {
+const generateBtn =
+  document.getElementById("generateBtn");
 
-        alert(
-          "Please enter both the main keyword and article topic."
-        );
+const outputBox =
+  document.getElementById("outputBox");
 
-        return;
-      }
+const articleOutput =
+  document.getElementById("articleOutput");
 
+const copyBtn =
+  document.getElementById("copyBtn");
 
-      outputBox.style.display = "block";
 
-      articleOutput.textContent =
-        "Writing your article...\n\nPlease wait while the writing engine creates your article.";
+generateBtn.addEventListener("click", async function () {
 
+  const keyword =
+    document.getElementById("keyword").value.trim();
 
-      generateBtn.disabled = true;
+  const topic =
+    document.getElementById("topic").value.trim();
 
-      generateBtn.textContent =
-        "Writing Article...";
+  const length =
+    document.getElementById("length").value;
 
+  const tone =
+    document.getElementById("tone").value;
 
-      outputBox.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
+  const notes =
+    document.getElementById("notes").value.trim();
 
 
-      try {
+  if (!keyword || !topic) {
 
-        const response = await fetch(WORKER_URL, {
+    alert(
+      "Please enter both the main keyword and article topic."
+    );
 
-          method: "POST",
+    return;
+  }
 
-          headers: {
-            "Content-Type": "application/json"
-          },
 
-          body: JSON.stringify({
+  outputBox.style.display = "block";
 
-            keyword: keyword,
+  articleOutput.textContent =
+    "Writing your article...\n\n" +
+    "The writing engine is preparing your content. Please wait.";
 
-            topic: topic,
 
-            length: length,
+  generateBtn.disabled = true;
 
-            style: tone,
+  generateBtn.textContent =
+    "Writing Article...";
 
-            instructions: notes
 
-          })
+  outputBox.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
 
-        });
 
+  try {
 
-        let data;
+    const response = await fetch(WORKER_URL, {
 
-        try {
+      method: "POST",
 
-          data = await response.json();
+      headers: {
+        "Content-Type": "application/json"
+      },
 
-        } catch (jsonError) {
+      body: JSON.stringify({
 
-          throw new Error(
-            "The server returned an invalid response."
-          );
+        keyword: keyword,
 
-        }
+        topic: topic,
 
+        length: length,
 
-        if (!response.ok) {
+        style: tone,
 
-          throw new Error(
-            data.error ||
-            "Unable to generate the article."
-          );
+        instructions: notes
 
-        }
-
-
-        if (!data.article) {
-
-          throw new Error(
-            "The writing engine returned an empty article."
-          );
-
-        }
-
-
-        articleOutput.textContent =
-          data.article;
-
-
-      } catch (error) {
-
-        console.error(
-          "Article generation error:",
-          error
-        );
-
-
-        articleOutput.textContent =
-          "Sorry, the article could not be generated.\n\n" +
-          "Error: " +
-          error.message;
-
-      }
-
-
-      generateBtn.disabled = false;
-
-      generateBtn.textContent =
-        "Generate Article";
+      })
 
     });
 
 
-    copyBtn.addEventListener("click", async function () {
+    let data;
 
-      const text =
-        articleOutput.innerText.trim();
+    try {
 
+      data = await response.json();
 
-      if (!text) {
+    } catch (error) {
 
-        return;
+      throw new Error(
+        "The server returned an invalid response."
+      );
 
-      }
-
-
-      try {
-
-        await navigator.clipboard.writeText(text);
-
-        copyBtn.textContent =
-          "Copied!";
+    }
 
 
-        setTimeout(function () {
+    if (!response.ok) {
 
-          copyBtn.textContent =
-            "Copy Article";
+      throw new Error(
+        data.error ||
+        "The article could not be generated."
+      );
 
-        }, 1500);
+    }
 
 
-      } catch (error) {
+    if (!data.article) {
 
-        alert(
-          "Unable to copy the article."
-        );
+      throw new Error(
+        "The writing engine returned no article."
+      );
 
-      }
+    }
 
-    });
 
-  </script>
+    articleOutput.textContent =
+      data.article;
+
+
+  } catch (error) {
+
+    console.error(
+      "Generation error:",
+      error
+    );
+
+
+    articleOutput.textContent =
+      "Unable to generate the article.\n\n" +
+      "Please try again.\n\n" +
+      "Error: " +
+      error.message;
+
+  }
+
+
+  generateBtn.disabled = false;
+
+  generateBtn.textContent =
+    "Generate Article";
+
+});
+
+
+copyBtn.addEventListener("click", async function () {
+
+  const text =
+    articleOutput.innerText.trim();
+
+
+  if (!text) {
+    return;
+  }
+
+
+  try {
+
+    await navigator.clipboard.writeText(text);
+
+    copyBtn.textContent =
+      "Copied!";
+
+
+    setTimeout(function () {
+
+      copyBtn.textContent =
+        "Copy Article";
+
+    }, 1500);
+
+
+  } catch (error) {
+
+    alert(
+      "Unable to copy the article."
+    );
+
+  }
+
+});
+
+</script>
 
 </body>
 </html>
