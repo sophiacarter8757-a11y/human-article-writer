@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Human Article Writer – Natural & SEO-Friendly Articles</title>
+
+  <meta name="description" content="Create natural, useful and SEO-friendly articles with a structured human-focused writing workflow.">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f7fb;
+      color: #172033;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e9f2;
+      padding: 18px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      color: #172033;
+    }
+
+    .logo span {
+      color: #635bff;
+    }
+
+    nav {
+      display: flex;
+      gap: 22px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #596273;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    nav a:hover {
+      color: #635bff;
+    }
+
+    .hero {
+      max-width: 900px;
+      margin: 55px auto 30px;
+      padding: 0 20px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #ebe9ff;
+      color: #5148d9;
+      padding: 7px 13px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: 44px;
+      line-height: 1.15;
+      margin-bottom: 18px;
+      letter-spacing: -1px;
+    }
+
+    .hero h1 span {
+      color: #635bff;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: auto;
+      color: #667085;
+      font-size: 17px;
+    }
+
+    .workspace {
+      max-width: 1100px;
+      margin: 35px auto 70px;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #e5e9f2;
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 8px 30px rgba(24, 34, 56, 0.06);
+    }
+
+    .card h2 {
+      font-size: 21px;
+      margin-bottom: 7px;
+    }
+
+    .card-intro {
+      color: #727b8c;
+      font-size: 14px;
+      margin-bottom: 25px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid #dce1eb;
+      border-radius: 10px;
+      padding: 13px 14px;
+      font-size: 15px;
+      font-family: inherit;
+      color: #172033;
+      background: #ffffff;
+      outline: none;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #635bff;
+      box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.10);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .generate-area {
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+    }
+
+    #generateBtn {
+      border: none;
+      background: #635bff;
+      color: #ffffff;
+      padding: 14px 30px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    #generateBtn:hover {
+      transform: translateY(-1px);
+      opacity: 0.92;
+    }
+
+    .output {
+      margin-top: 25px;
+      display: none;
+    }
+
+    .output-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .output-header h2 {
+      margin: 0;
+    }
+
+    #copyBtn {
+      border: 1px solid #dce1eb;
+      background: #ffffff;
+      color: #30394b;
+      padding: 9px 15px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    #articleOutput {
+      min-height: 450px;
+      border: 1px solid #e5e9f2;
+      border-radius: 12px;
+      padding: 25px;
+      background: #fcfdff;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .note {
+      margin-top: 15px;
+      color: #7a8392;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    footer {
+      border-top: 1px solid #e5e9f2;
+      background: #ffffff;
+      text-align: center;
+      padding: 25px 20px;
+      color: #7a8392;
+      font-size: 13px;
+    }
+
+    @media (max-width: 700px) {
+      .hero {
+        margin-top: 35px;
+      }
+
+      .hero h1 {
+        font-size: 34px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="logo">Human<span>Article</span>Writer</div>
+
+      <nav>
+        <a href="#writer">Article Writer</a>
+        <a href="#about">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <div class="badge">NATURAL • USEFUL • SEO-FRIENDLY</div>
+
+      <h1>
+        Write Better Articles That Feel
+        <span>Human</span>
+      </h1>
+
+      <p>
+        Create well-structured articles with natural language, useful information,
+        clear headings and a reader-first approach.
+      </p>
+    </section>
+
+    <section class="workspace" id="writer">
+
+      <div class="card">
+
+        <h2>Article Writer</h2>
+
+        <p class="card-intro">
+          Enter your topic and article requirements. The writing engine will use
+          them to create a complete article.
+        </p>
+
+        <div class="form-grid">
+
+          <div class="field">
+            <label for="keyword">Main Keyword</label>
+            <input
+              id="keyword"
+              type="text"
+              placeholder="Example: budget hotels near me"
+            >
+          </div>
+
+          <div class="field">
+            <label for="topic">Article Topic</label>
+            <input
+              id="topic"
+              type="text"
+              placeholder="Example: Best Budget Hotels Near Me"
+            >
+          </div>
+
+          <div class="field">
+            <label for="length">Article Length</label>
+            <select id="length">
+              <option value="800">800 words</option>
+              <option value="1000" selected>1000 words</option>
+              <option value="1200">1200 words</option>
+              <option value="1500">1500 words</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="tone">Writing Style</label>
+            <select id="tone">
+              <option value="natural" selected>Natural & Human</option>
+              <option value="professional">Professional</option>
+              <option value="simple">Simple & Easy</option>
+              <option value="informative">Informative</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label for="notes">Additional Instructions</label>
+
+            <textarea
+              id="notes"
+              placeholder="Add anything important about the article, audience, website or topic..."
+            ></textarea>
+          </div>
+
+        </div>
+
+        <div class="generate-area">
+          <button id="generateBtn">Generate Article</button>
+        </div>
+
+        <p class="note">
+          The article should prioritize usefulness, originality, clarity and natural writing.
+        </p>
+
+      </div>
+
+      <div class="card output" id="outputBox">
+
+        <div class="output-header">
+          <h2>Your Article</h2>
+          <button id="copyBtn">Copy Article</button>
+        </div>
+
+        <div id="articleOutput"></div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer id="about">
+    Human Article Writer — focused on useful, natural and well-structured content.
+  </footer>
+
+  <script>
+    const generateBtn = document.getElementById("generateBtn");
+    const outputBox = document.getElementById("outputBox");
+    const articleOutput = document.getElementById("articleOutput");
+    const copyBtn = document.getElementById("copyBtn");
+
+    generateBtn.addEventListener("click", function () {
+
+      const keyword = document.getElementById("keyword").value.trim();
+      const topic = document.getElementById("topic").value.trim();
+
+      if (!keyword || !topic) {
+        alert("Please enter both the main keyword and article topic.");
+        return;
+      }
+
+      articleOutput.textContent =
+        "Your article will appear here after the writing engine is connected.";
+
+      outputBox.style.display = "block";
+
+      outputBox.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    });
+
+    copyBtn.addEventListener("click", async function () {
+
+      const text = articleOutput.innerText;
+
+      try {
+        await navigator.clipboard.writeText(text);
+        copyBtn.textContent = "Copied!";
+        setTimeout(() => {
+          copyBtn.textContent = "Copy Article";
+        }, 1500);
+      } catch (error) {
+        alert("Unable to copy the article.");
+      }
+
+    });
+  </script>
+
+</body>
+</html>
