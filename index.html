@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -618,11 +619,6 @@ const copyBtn =
   document.getElementById("copyBtn");
 
 
-/*
-  Escape HTML before rendering Markdown.
-  This prevents generated content from being
-  interpreted as raw HTML.
-*/
 function escapeHtml(text) {
 
   return String(text)
@@ -635,9 +631,6 @@ function escapeHtml(text) {
 }
 
 
-/*
-  Convert simple Markdown into safe HTML.
-*/
 function renderMarkdown(markdown) {
 
   const safeText =
@@ -838,10 +831,6 @@ function renderMarkdown(markdown) {
       line.trim();
 
 
-    /*
-      Detect Markdown tables.
-    */
-
     if (isTableRow(trimmed)) {
 
       flushParagraph();
@@ -883,10 +872,6 @@ function renderMarkdown(markdown) {
     }
 
 
-    /*
-      Blank line.
-    */
-
     if (!trimmed) {
 
       flushParagraph();
@@ -896,10 +881,6 @@ function renderMarkdown(markdown) {
 
     }
 
-
-    /*
-      H3 must be checked before H2 and H1.
-    */
 
     if (/^###\s+/.test(trimmed)) {
 
@@ -919,10 +900,6 @@ function renderMarkdown(markdown) {
     }
 
 
-    /*
-      H2.
-    */
-
     if (/^##\s+/.test(trimmed)) {
 
       flushParagraph();
@@ -941,10 +918,6 @@ function renderMarkdown(markdown) {
     }
 
 
-    /*
-      H1.
-    */
-
     if (/^#\s+/.test(trimmed)) {
 
       flushParagraph();
@@ -962,10 +935,6 @@ function renderMarkdown(markdown) {
 
     }
 
-
-    /*
-      Bullet list.
-    */
 
     if (/^[-*]\s+/.test(trimmed)) {
 
@@ -996,10 +965,6 @@ function renderMarkdown(markdown) {
     }
 
 
-    /*
-      Numbered list.
-    */
-
     if (/^\d+\.\s+/.test(trimmed)) {
 
       flushParagraph();
@@ -1029,10 +994,6 @@ function renderMarkdown(markdown) {
     }
 
 
-    /*
-      Blockquote.
-    */
-
     if (/^&gt;\s?/.test(trimmed)) {
 
       flushParagraph();
@@ -1050,10 +1011,6 @@ function renderMarkdown(markdown) {
 
     }
 
-
-    /*
-      Normal paragraph line.
-    */
 
     closeList();
 
@@ -1250,27 +1207,100 @@ generateBtn.addEventListener(
 
 
 /*
-  Copy Article.
+  Copy Article with rich formatting.
+  This preserves headings, paragraphs,
+  lists, tables and basic formatting
+  when the destination supports rich paste.
 */
 
 copyBtn.addEventListener(
   "click",
   async function () {
 
-    const text =
+    const plainText =
       articleOutput.innerText.trim();
 
+    const richHtml =
+      articleOutput.innerHTML.trim();
 
-    if (!text) {
+
+    if (!plainText) {
       return;
     }
 
 
     try {
 
-      await navigator.clipboard.writeText(
-        text
-      );
+      if (
+        navigator.clipboard &&
+        window.ClipboardItem
+      ) {
+
+        const clipboardData = {
+          "text/plain": new Blob(
+            [plainText],
+            {
+              type: "text/plain"
+            }
+          ),
+
+          "text/html": new Blob(
+            [richHtml],
+            {
+              type: "text/html"
+            }
+          )
+        };
+
+
+        await navigator.clipboard.write(
+          [
+            new ClipboardItem(
+              clipboardData
+            )
+          ]
+        );
+
+      } else if (
+        navigator.clipboard &&
+        navigator.clipboard.writeText
+      ) {
+
+        await navigator.clipboard.writeText(
+          plainText
+        );
+
+      } else {
+
+        const range =
+          document.createRange();
+
+        range.selectNodeContents(
+          articleOutput
+        );
+
+
+        const selection =
+          window.getSelection();
+
+        selection.removeAllRanges();
+
+        selection.addRange(range);
+
+
+        const successful =
+          document.execCommand("copy");
+
+        selection.removeAllRanges();
+
+
+        if (!successful) {
+          throw new Error(
+            "Copy command failed."
+          );
+        }
+
+      }
 
 
       copyBtn.textContent =
@@ -1290,9 +1320,65 @@ copyBtn.addEventListener(
 
     } catch (error) {
 
-      alert(
-        "Unable to copy the article."
+      console.error(
+        "Copy error:",
+        error
       );
+
+
+      try {
+
+        const range =
+          document.createRange();
+
+        range.selectNodeContents(
+          articleOutput
+        );
+
+
+        const selection =
+          window.getSelection();
+
+        selection.removeAllRanges();
+
+        selection.addRange(range);
+
+
+        const successful =
+          document.execCommand("copy");
+
+        selection.removeAllRanges();
+
+
+        if (!successful) {
+          throw new Error(
+            "Fallback copy failed."
+          );
+        }
+
+
+        copyBtn.textContent =
+          "Copied!";
+
+
+        setTimeout(
+          function () {
+
+            copyBtn.textContent =
+              "Copy Article";
+
+          },
+          1500
+        );
+
+
+      } catch (fallbackError) {
+
+        alert(
+          "Unable to copy the article. Please select the article manually and copy it."
+        );
+
+      }
 
     }
 
@@ -1303,3 +1389,4 @@ copyBtn.addEventListener(
 
 </body>
 </html>
+```
