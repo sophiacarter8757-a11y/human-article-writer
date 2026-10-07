@@ -6,7 +6,10 @@
 
   <title>Human Article Writer – Natural & SEO-Friendly Articles</title>
 
-  <meta name="description" content="Create natural, useful and SEO-friendly articles with clear structure, original ideas and reader-first writing.">
+  <meta
+    name="description"
+    content="Create natural, useful and SEO-friendly articles with clear structure, original ideas and reader-first writing."
+  >
 
   <style>
     * {
@@ -171,7 +174,7 @@
     }
 
     textarea {
-      min-height: 120px;
+      min-height: 150px;
       resize: vertical;
     }
 
@@ -231,14 +234,103 @@
       background: #f5f7fb;
     }
 
+    /*
+      Article formatting
+    */
+
     #articleOutput {
       min-height: 450px;
       border: 1px solid #e5e9f2;
       border-radius: 12px;
-      padding: 25px;
+      padding: 30px;
       background: #fcfdff;
-      white-space: pre-wrap;
       overflow-wrap: anywhere;
+      word-break: normal;
+      white-space: normal;
+      color: #202938;
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    #articleOutput h1 {
+      font-size: 32px;
+      line-height: 1.25;
+      font-weight: 800;
+      color: #172033;
+      margin: 0 0 22px;
+      letter-spacing: -0.4px;
+    }
+
+    #articleOutput h2 {
+      font-size: 25px;
+      line-height: 1.35;
+      font-weight: 800;
+      color: #172033;
+      margin: 34px 0 13px;
+      letter-spacing: -0.2px;
+    }
+
+    #articleOutput h3 {
+      font-size: 20px;
+      line-height: 1.4;
+      font-weight: 700;
+      color: #253047;
+      margin: 26px 0 10px;
+    }
+
+    #articleOutput p {
+      margin: 0 0 17px;
+    }
+
+    #articleOutput strong {
+      font-weight: 700;
+      color: #172033;
+    }
+
+    #articleOutput ul,
+    #articleOutput ol {
+      margin: 0 0 19px 27px;
+      padding-left: 8px;
+    }
+
+    #articleOutput li {
+      margin-bottom: 8px;
+      padding-left: 3px;
+    }
+
+    #articleOutput a {
+      color: #5148d9;
+      text-decoration: underline;
+    }
+
+    #articleOutput blockquote {
+      margin: 20px 0;
+      padding: 12px 18px;
+      border-left: 4px solid #635bff;
+      background: #f4f3ff;
+      color: #4d5668;
+    }
+
+    #articleOutput table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 22px 0;
+      background: #ffffff;
+      font-size: 15px;
+    }
+
+    #articleOutput th,
+    #articleOutput td {
+      border: 1px solid #dfe4ed;
+      padding: 11px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    #articleOutput th {
+      font-weight: 700;
+      background: #f5f7fb;
+      color: #172033;
     }
 
     .note {
@@ -285,6 +377,28 @@
       .output-header {
         align-items: flex-start;
         flex-direction: column;
+      }
+
+      #articleOutput {
+        padding: 20px;
+        font-size: 15px;
+      }
+
+      #articleOutput h1 {
+        font-size: 27px;
+      }
+
+      #articleOutput h2 {
+        font-size: 22px;
+      }
+
+      #articleOutput h3 {
+        font-size: 18px;
+      }
+
+      #articleOutput table {
+        display: block;
+        overflow-x: auto;
       }
     }
   </style>
@@ -500,179 +614,673 @@ const copyBtn =
   document.getElementById("copyBtn");
 
 
-generateBtn.addEventListener("click", async function () {
+/*
+  Safely escape HTML before converting
+  the article's Markdown formatting.
+*/
+function escapeHtml(text) {
 
-  const keyword =
-    document.getElementById("keyword").value.trim();
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 
-  const topic =
-    document.getElementById("topic").value.trim();
-
-  const length =
-    document.getElementById("length").value;
-
-  const tone =
-    document.getElementById("tone").value;
-
-  const notes =
-    document.getElementById("notes").value.trim();
+}
 
 
-  if (!keyword || !topic) {
+/*
+  Convert the article Markdown into
+  clean, readable HTML.
 
-    alert(
-      "Please enter both the main keyword and article topic."
-    );
+  The generated article is escaped first,
+  so model output cannot directly inject HTML.
+*/
+function renderMarkdown(markdown) {
 
-    return;
+  const safeText =
+    escapeHtml(markdown)
+      .replace(/\r\n/g, "\n")
+      .replace(/\r/g, "\n");
+
+  const lines =
+    safeText.split("\n");
+
+  let html = "";
+
+  let paragraph = [];
+
+  let listType = null;
+
+  let tableRows = [];
+
+  function flushParagraph() {
+
+    if (!paragraph.length) {
+      return;
+    }
+
+    const content =
+      paragraph.join(" ").trim();
+
+    if (content) {
+
+      html +=
+        "<p>" +
+        formatInline(content) +
+        "</p>";
+
+    }
+
+    paragraph = [];
+
   }
 
 
-  outputBox.style.display = "block";
+  function closeList() {
 
-  articleOutput.textContent =
-    "Writing your article...\n\n" +
-    "The writing engine is preparing your content. Please wait.";
+    if (listType === "ul") {
+      html += "</ul>";
+    }
 
+    if (listType === "ol") {
+      html += "</ol>";
+    }
 
-  generateBtn.disabled = true;
+    listType = null;
 
-  generateBtn.textContent =
-    "Writing Article...";
-
-
-  outputBox.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
+  }
 
 
-  try {
+  function flushTable() {
 
-    const response = await fetch(WORKER_URL, {
+    if (!tableRows.length) {
+      return;
+    }
 
-      method: "POST",
+    if (tableRows.length < 2) {
 
-      headers: {
-        "Content-Type": "application/json"
-      },
+      tableRows.forEach(function(row) {
 
-      body: JSON.stringify({
+        html +=
+          "<p>" +
+          formatInline(row.join(" • ")) +
+          "</p>";
 
-        keyword: keyword,
+      });
 
-        topic: topic,
+      tableRows = [];
 
-        length: length,
+      return;
+    }
 
-        style: tone,
+    html += "<table>";
 
-        instructions: notes
+    const header =
+      tableRows[0];
 
-      })
+    html += "<thead><tr>";
+
+    header.forEach(function(cell) {
+
+      html +=
+        "<th>" +
+        formatInline(cell.trim()) +
+        "</th>";
 
     });
 
+    html += "</tr></thead>";
 
-    let data;
+    html += "<tbody>";
+
+    for (let i = 1; i < tableRows.length; i++) {
+
+      html += "<tr>";
+
+      tableRows[i].forEach(function(cell) {
+
+        html +=
+          "<td>" +
+          formatInline(cell.trim()) +
+          "</td>";
+
+      });
+
+      html += "</tr>";
+
+    }
+
+    html += "</tbody></table>";
+
+    tableRows = [];
+
+  }
+
+
+  function isTableRow(line) {
+
+    return (
+      line.trim().startsWith("|") &&
+      line.trim().endsWith("|")
+    );
+
+  }
+
+
+  function isTableSeparator(line) {
+
+    return /^\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)+\|?$/.test(
+      line.trim()
+    );
+
+  }
+
+
+  function parseTableRow(line) {
+
+    return line
+      .trim()
+      .replace(/^\|/, "")
+      .replace(/\|$/, "")
+      .split("|")
+      .map(function(cell) {
+        return cell.trim();
+      });
+
+  }
+
+
+  function formatInline(text) {
+
+    let result = text;
+
+    result =
+      result.replace(
+        /\*\*(.+?)\*\*/g,
+        "<strong>$1</strong>"
+      );
+
+    result =
+      result.replace(
+        /__(.+?)__/g,
+        "<strong>$1</strong>"
+      );
+
+    result =
+      result.replace(
+        /`(.+?)`/g,
+        "<code>$1</code>"
+      );
+
+    return result;
+
+  }
+
+
+  for (let i = 0; i < lines.length; i++) {
+
+    const line =
+      lines[i];
+
+    const trimmed =
+      line.trim();
+
+
+    /*
+      Table handling
+    */
+
+    if (isTableRow(trimmed)) {
+
+      flushParagraph();
+      closeList();
+
+      if (
+        i + 1 < lines.length &&
+        isTableSeparator(lines[i + 1])
+      ) {
+
+        tableRows = [
+          parseTableRow(line)
+        ];
+
+        i++;
+
+        while (
+          i + 1 < lines.length &&
+          isTableRow(lines[i + 1])
+        ) {
+
+          i++;
+
+          tableRows.push(
+            parseTableRow(lines[i])
+          );
+
+        }
+
+        flushTable();
+
+        continue;
+
+      }
+
+    }
+
+
+    /*
+      Blank line
+    */
+
+    if (!trimmed) {
+
+      flushParagraph();
+      closeList();
+
+      continue;
+
+    }
+
+
+    /*
+      H1
+    */
+
+    if (/^#\s+/.test(trimmed)) {
+
+      flushParagraph();
+      closeList();
+
+      const heading =
+        trimmed.replace(/^#\s+/, "");
+
+      html +=
+        "<h1>" +
+        formatInline(heading) +
+        "</h1>";
+
+      continue;
+
+    }
+
+
+    /*
+      H2
+    */
+
+    if (/^##\s+/.test(trimmed)) {
+
+      flushParagraph();
+      closeList();
+
+      const heading =
+        trimmed.replace(/^##\s+/, "");
+
+      html +=
+        "<h2>" +
+        formatInline(heading) +
+        "</h2>";
+
+      continue;
+
+    }
+
+
+    /*
+      H3
+    */
+
+    if (/^###\s+/.test(trimmed)) {
+
+      flushParagraph();
+      closeList();
+
+      const heading =
+        trimmed.replace(/^###\s+/, "");
+
+      html +=
+        "<h3>" +
+        formatInline(heading) +
+        "</h3>";
+
+      continue;
+
+    }
+
+
+    /*
+      Bullet list
+    */
+
+    if (/^[-*]\s+/.test(trimmed)) {
+
+      flushParagraph();
+
+      if (listType !== "ul") {
+
+        closeList();
+
+        html += "<ul>";
+
+        listType = "ul";
+
+      }
+
+      const item =
+        trimmed.replace(/^[-*]\s+/, "");
+
+      html +=
+        "<li>" +
+        formatInline(item) +
+        "</li>";
+
+      continue;
+
+    }
+
+
+    /*
+      Numbered list
+    */
+
+    if (/^\d+\.\s+/.test(trimmed)) {
+
+      flushParagraph();
+
+      if (listType !== "ol") {
+
+        closeList();
+
+        html += "<ol>";
+
+        listType = "ol";
+
+      }
+
+      const item =
+        trimmed.replace(/^\d+\.\s+/, "");
+
+      html +=
+        "<li>" +
+        formatInline(item) +
+        "</li>";
+
+      continue;
+
+    }
+
+
+    /*
+      Blockquote
+    */
+
+    if (/^&gt;\s?/.test(trimmed)) {
+
+      flushParagraph();
+      closeList();
+
+      const quote =
+        trimmed.replace(/^&gt;\s?/, "");
+
+      html +=
+        "<blockquote>" +
+        formatInline(quote) +
+        "</blockquote>";
+
+      continue;
+
+    }
+
+
+    /*
+      Normal paragraph line
+    */
+
+    closeList();
+
+    paragraph.push(trimmed);
+
+  }
+
+
+  flushParagraph();
+  closeList();
+  flushTable();
+
+
+  return html;
+
+}
+
+
+/*
+  Generate Article
+*/
+
+generateBtn.addEventListener(
+  "click",
+  async function () {
+
+    const keyword =
+      document
+        .getElementById("keyword")
+        .value
+        .trim();
+
+    const topic =
+      document
+        .getElementById("topic")
+        .value
+        .trim();
+
+    const length =
+      document
+        .getElementById("length")
+        .value;
+
+    const tone =
+      document
+        .getElementById("tone")
+        .value;
+
+    const notes =
+      document
+        .getElementById("notes")
+        .value
+        .trim();
+
+
+    if (!keyword || !topic) {
+
+      alert(
+        "Please enter both the main keyword and article topic."
+      );
+
+      return;
+
+    }
+
+
+    outputBox.style.display =
+      "block";
+
+
+    articleOutput.innerHTML =
+      "<p><strong>Writing your article...</strong></p>" +
+      "<p>The writing engine is preparing your content. Please wait.</p>";
+
+
+    generateBtn.disabled =
+      true;
+
+
+    generateBtn.textContent =
+      "Writing Article...";
+
+
+    outputBox.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
 
     try {
 
-      data = await response.json();
+      const response =
+        await fetch(
+          WORKER_URL,
+          {
+
+            method: "POST",
+
+            headers: {
+              "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+              keyword: keyword,
+
+              topic: topic,
+
+              length: length,
+
+              style: tone,
+
+              instructions: notes
+
+            })
+
+          }
+        );
+
+
+      let data;
+
+
+      try {
+
+        data =
+          await response.json();
+
+      } catch (error) {
+
+        throw new Error(
+          "The server returned an invalid response."
+        );
+
+      }
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          data.error ||
+          "The article could not be generated."
+        );
+
+      }
+
+
+      if (!data.article) {
+
+        throw new Error(
+          "The writing engine returned no article."
+        );
+
+      }
+
+
+      /*
+        Important:
+        Render Markdown instead of showing
+        # ## ### as plain text.
+      */
+
+      articleOutput.innerHTML =
+        renderMarkdown(data.article);
+
 
     } catch (error) {
 
-      throw new Error(
-        "The server returned an invalid response."
+      console.error(
+        "Generation error:",
+        error
       );
+
+
+      articleOutput.innerHTML =
+        "<p><strong>Unable to generate the article.</strong></p>" +
+        "<p>Please try again.</p>" +
+        "<p>Error: " +
+        escapeHtml(error.message) +
+        "</p>";
 
     }
 
 
-    if (!response.ok) {
-
-      throw new Error(
-        data.error ||
-        "The article could not be generated."
-      );
-
-    }
+    generateBtn.disabled =
+      false;
 
 
-    if (!data.article) {
-
-      throw new Error(
-        "The writing engine returned no article."
-      );
-
-    }
-
-
-    articleOutput.textContent =
-      data.article;
-
-
-  } catch (error) {
-
-    console.error(
-      "Generation error:",
-      error
-    );
-
-
-    articleOutput.textContent =
-      "Unable to generate the article.\n\n" +
-      "Please try again.\n\n" +
-      "Error: " +
-      error.message;
+    generateBtn.textContent =
+      "Generate Article";
 
   }
+);
 
 
-  generateBtn.disabled = false;
+/*
+  Copy Article
+*/
 
-  generateBtn.textContent =
-    "Generate Article";
+copyBtn.addEventListener(
+  "click",
+  async function () {
 
-});
-
-
-copyBtn.addEventListener("click", async function () {
-
-  const text =
-    articleOutput.innerText.trim();
+    const text =
+      articleOutput.innerText.trim();
 
 
-  if (!text) {
-    return;
-  }
+    if (!text) {
+      return;
+    }
 
 
-  try {
+    try {
 
-    await navigator.clipboard.writeText(text);
+      await navigator.clipboard.writeText(
+        text
+      );
 
-    copyBtn.textContent =
-      "Copied!";
-
-
-    setTimeout(function () {
 
       copyBtn.textContent =
-        "Copy Article";
-
-    }, 1500);
+        "Copied!";
 
 
-  } catch (error) {
+      setTimeout(
+        function () {
 
-    alert(
-      "Unable to copy the article."
-    );
+          copyBtn.textContent =
+            "Copy Article";
+
+        },
+        1500
+      );
+
+
+    } catch (error) {
+
+      alert(
+        "Unable to copy the article."
+      );
+
+    }
 
   }
-
-});
+);
 
 </script>
 
