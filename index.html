@@ -234,10 +234,6 @@
       background: #f5f7fb;
     }
 
-    /*
-      Article formatting
-    */
-
     #articleOutput {
       min-height: 450px;
       border: 1px solid #e5e9f2;
@@ -296,6 +292,14 @@
     #articleOutput li {
       margin-bottom: 8px;
       padding-left: 3px;
+    }
+
+    #articleOutput code {
+      padding: 2px 5px;
+      border-radius: 5px;
+      background: #eef0f5;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 0.92em;
     }
 
     #articleOutput a {
@@ -464,6 +468,7 @@
             id="keyword"
             type="text"
             placeholder="Example: budget hotels near me"
+            autocomplete="off"
           >
 
         </div>
@@ -478,6 +483,7 @@
             id="topic"
             type="text"
             placeholder="Example: Best Budget Hotels Near Me"
+            autocomplete="off"
           >
 
         </div>
@@ -546,7 +552,7 @@
 
           <textarea
             id="notes"
-            placeholder="Add audience, website, country, content requirements, examples or anything else that matters..."
+            placeholder="Optional: Add audience, country, source information, special requirements, tone preferences, or other details that matter..."
           ></textarea>
 
         </div>
@@ -555,7 +561,7 @@
 
       <div class="generate-area">
 
-        <button id="generateBtn">
+        <button id="generateBtn" type="button">
           Generate Article
         </button>
 
@@ -567,7 +573,6 @@
 
     </div>
 
-
     <div class="card output" id="outputBox">
 
       <div class="output-header">
@@ -576,7 +581,7 @@
           Your Article
         </h2>
 
-        <button id="copyBtn">
+        <button id="copyBtn" type="button">
           Copy Article
         </button>
 
@@ -593,7 +598,6 @@
 <footer id="about">
   Human Article Writer — focused on useful, natural and well-structured content.
 </footer>
-
 
 <script>
 
@@ -615,8 +619,9 @@ const copyBtn =
 
 
 /*
-  Safely escape HTML before converting
-  the article's Markdown formatting.
+  Escape HTML before rendering Markdown.
+  This prevents generated content from being
+  interpreted as raw HTML.
 */
 function escapeHtml(text) {
 
@@ -631,11 +636,7 @@ function escapeHtml(text) {
 
 
 /*
-  Convert the article Markdown into
-  clean, readable HTML.
-
-  The generated article is escaped first,
-  so model output cannot directly inject HTML.
+  Convert simple Markdown into safe HTML.
 */
 function renderMarkdown(markdown) {
 
@@ -654,6 +655,7 @@ function renderMarkdown(markdown) {
   let listType = null;
 
   let tableRows = [];
+
 
   function flushParagraph() {
 
@@ -713,7 +715,9 @@ function renderMarkdown(markdown) {
       tableRows = [];
 
       return;
+
     }
+
 
     html += "<table>";
 
@@ -735,6 +739,7 @@ function renderMarkdown(markdown) {
 
     html += "<tbody>";
 
+
     for (let i = 1; i < tableRows.length; i++) {
 
       html += "<tr>";
@@ -751,6 +756,7 @@ function renderMarkdown(markdown) {
       html += "</tr>";
 
     }
+
 
     html += "</tbody></table>";
 
@@ -796,11 +802,13 @@ function renderMarkdown(markdown) {
 
     let result = text;
 
+
     result =
       result.replace(
         /\*\*(.+?)\*\*/g,
         "<strong>$1</strong>"
       );
+
 
     result =
       result.replace(
@@ -808,11 +816,13 @@ function renderMarkdown(markdown) {
         "<strong>$1</strong>"
       );
 
+
     result =
       result.replace(
         /`(.+?)`/g,
         "<code>$1</code>"
       );
+
 
     return result;
 
@@ -829,13 +839,14 @@ function renderMarkdown(markdown) {
 
 
     /*
-      Table handling
+      Detect Markdown tables.
     */
 
     if (isTableRow(trimmed)) {
 
       flushParagraph();
       closeList();
+
 
       if (
         i + 1 < lines.length &&
@@ -847,6 +858,7 @@ function renderMarkdown(markdown) {
         ];
 
         i++;
+
 
         while (
           i + 1 < lines.length &&
@@ -861,6 +873,7 @@ function renderMarkdown(markdown) {
 
         }
 
+
         flushTable();
 
         continue;
@@ -871,7 +884,7 @@ function renderMarkdown(markdown) {
 
 
     /*
-      Blank line
+      Blank line.
     */
 
     if (!trimmed) {
@@ -885,51 +898,7 @@ function renderMarkdown(markdown) {
 
 
     /*
-      H1
-    */
-
-    if (/^#\s+/.test(trimmed)) {
-
-      flushParagraph();
-      closeList();
-
-      const heading =
-        trimmed.replace(/^#\s+/, "");
-
-      html +=
-        "<h1>" +
-        formatInline(heading) +
-        "</h1>";
-
-      continue;
-
-    }
-
-
-    /*
-      H2
-    */
-
-    if (/^##\s+/.test(trimmed)) {
-
-      flushParagraph();
-      closeList();
-
-      const heading =
-        trimmed.replace(/^##\s+/, "");
-
-      html +=
-        "<h2>" +
-        formatInline(heading) +
-        "</h2>";
-
-      continue;
-
-    }
-
-
-    /*
-      H3
+      H3 must be checked before H2 and H1.
     */
 
     if (/^###\s+/.test(trimmed)) {
@@ -951,12 +920,57 @@ function renderMarkdown(markdown) {
 
 
     /*
-      Bullet list
+      H2.
+    */
+
+    if (/^##\s+/.test(trimmed)) {
+
+      flushParagraph();
+      closeList();
+
+      const heading =
+        trimmed.replace(/^##\s+/, "");
+
+      html +=
+        "<h2>" +
+        formatInline(heading) +
+        "</h2>";
+
+      continue;
+
+    }
+
+
+    /*
+      H1.
+    */
+
+    if (/^#\s+/.test(trimmed)) {
+
+      flushParagraph();
+      closeList();
+
+      const heading =
+        trimmed.replace(/^#\s+/, "");
+
+      html +=
+        "<h1>" +
+        formatInline(heading) +
+        "</h1>";
+
+      continue;
+
+    }
+
+
+    /*
+      Bullet list.
     */
 
     if (/^[-*]\s+/.test(trimmed)) {
 
       flushParagraph();
+
 
       if (listType !== "ul") {
 
@@ -967,6 +981,7 @@ function renderMarkdown(markdown) {
         listType = "ul";
 
       }
+
 
       const item =
         trimmed.replace(/^[-*]\s+/, "");
@@ -982,12 +997,13 @@ function renderMarkdown(markdown) {
 
 
     /*
-      Numbered list
+      Numbered list.
     */
 
     if (/^\d+\.\s+/.test(trimmed)) {
 
       flushParagraph();
+
 
       if (listType !== "ol") {
 
@@ -998,6 +1014,7 @@ function renderMarkdown(markdown) {
         listType = "ol";
 
       }
+
 
       const item =
         trimmed.replace(/^\d+\.\s+/, "");
@@ -1013,7 +1030,7 @@ function renderMarkdown(markdown) {
 
 
     /*
-      Blockquote
+      Blockquote.
     */
 
     if (/^&gt;\s?/.test(trimmed)) {
@@ -1035,7 +1052,7 @@ function renderMarkdown(markdown) {
 
 
     /*
-      Normal paragraph line
+      Normal paragraph line.
     */
 
     closeList();
@@ -1056,7 +1073,7 @@ function renderMarkdown(markdown) {
 
 
 /*
-  Generate Article
+  Generate Article.
 */
 
 generateBtn.addEventListener(
@@ -1069,21 +1086,25 @@ generateBtn.addEventListener(
         .value
         .trim();
 
+
     const topic =
       document
         .getElementById("topic")
         .value
         .trim();
 
+
     const length =
       document
         .getElementById("length")
         .value;
 
+
     const tone =
       document
         .getElementById("tone")
         .value;
+
 
     const notes =
       document
@@ -1132,7 +1153,6 @@ generateBtn.addEventListener(
         await fetch(
           WORKER_URL,
           {
-
             method: "POST",
 
             headers: {
@@ -1193,12 +1213,6 @@ generateBtn.addEventListener(
       }
 
 
-      /*
-        Important:
-        Render Markdown instead of showing
-        # ## ### as plain text.
-      */
-
       articleOutput.innerHTML =
         renderMarkdown(data.article);
 
@@ -1215,7 +1229,10 @@ generateBtn.addEventListener(
         "<p><strong>Unable to generate the article.</strong></p>" +
         "<p>Please try again.</p>" +
         "<p>Error: " +
-        escapeHtml(error.message) +
+        escapeHtml(
+          error?.message ||
+          "Unknown error"
+        ) +
         "</p>";
 
     }
@@ -1233,7 +1250,7 @@ generateBtn.addEventListener(
 
 
 /*
-  Copy Article
+  Copy Article.
 */
 
 copyBtn.addEventListener(
