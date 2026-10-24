@@ -1,1656 +1,413 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Human Article Writer – Natural & SEO-Friendly Articles</title>
-
-  <meta
-    name="description"
-    content="Create natural, useful and SEO-friendly articles with clear structure, original ideas and reader-first writing."
-  >
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f5f7fb;
-      color: #172033;
-      line-height: 1.6;
-    }
-
-    header {
-      background: #ffffff;
-      border-bottom: 1px solid #e5e9f2;
-      padding: 18px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    .header-inner {
-      max-width: 1100px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .logo {
-      font-size: 22px;
-      font-weight: 800;
-      color: #172033;
-    }
-
-    .logo span {
-      color: #635bff;
-    }
-
-    nav {
-      display: flex;
-      gap: 22px;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: #596273;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    nav a:hover {
-      color: #635bff;
-    }
-
-    .hero {
-      max-width: 900px;
-      margin: 55px auto 30px;
-      padding: 0 20px;
-      text-align: center;
-    }
-
-    .badge {
-      display: inline-block;
-      background: #ebe9ff;
-      color: #5148d9;
-      padding: 7px 13px;
-      border-radius: 30px;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 18px;
-    }
-
-    .hero h1 {
-      font-size: 44px;
-      line-height: 1.15;
-      margin-bottom: 18px;
-      letter-spacing: -1px;
-    }
-
-    .hero h1 span {
-      color: #635bff;
-    }
-
-    .hero p {
-      max-width: 700px;
-      margin: auto;
-      color: #667085;
-      font-size: 17px;
-    }
-
-    .workspace {
-      max-width: 1100px;
-      margin: 35px auto 70px;
-      padding: 0 20px;
-    }
-
-    .card {
-      background: #ffffff;
-      border: 1px solid #e5e9f2;
-      border-radius: 18px;
-      padding: 28px;
-      box-shadow: 0 8px 30px rgba(24, 34, 56, 0.06);
-    }
-
-    .card h2 {
-      font-size: 21px;
-      margin-bottom: 7px;
-    }
-
-    .card-intro {
-      color: #727b8c;
-      font-size: 14px;
-      margin-bottom: 25px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .field.full {
-      grid-column: 1 / -1;
-    }
-
-    label {
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      border: 1px solid #dce1eb;
-      border-radius: 10px;
-      padding: 13px 14px;
-      font-size: 15px;
-      font-family: inherit;
-      color: #172033;
-      background: #ffffff;
-      outline: none;
-      transition: border 0.2s, box-shadow 0.2s;
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: #635bff;
-      box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.10);
-    }
-
-    textarea {
-      min-height: 150px;
-      resize: vertical;
-    }
-
-    .generate-area {
-      margin-top: 25px;
-      display: flex;
-      justify-content: center;
-    }
-
-    #generateBtn {
-      border: none;
-      background: #635bff;
-      color: #ffffff;
-      padding: 14px 30px;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform 0.2s, opacity 0.2s;
-    }
-
-    #generateBtn:hover {
-      transform: translateY(-1px);
-      opacity: 0.92;
-    }
-
-    #generateBtn:disabled {
-      cursor: not-allowed;
-      opacity: 0.65;
-      transform: none;
-    }
-
-    .output {
-      margin-top: 25px;
-      display: none;
-    }
-
-    .output-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      margin-bottom: 15px;
-    }
-
-    #copyBtn {
-      border: 1px solid #dce1eb;
-      background: #ffffff;
-      color: #30394b;
-      padding: 9px 15px;
-      border-radius: 8px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    #copyBtn:hover {
-      background: #f5f7fb;
-    }
-
-    #articleOutput {
-      min-height: 450px;
-      border: 1px solid #e5e9f2;
-      border-radius: 12px;
-      padding: 30px;
-      background: #fcfdff;
-      overflow-wrap: anywhere;
-      word-break: normal;
-      white-space: normal;
-      color: #202938;
-      font-size: 16px;
-      line-height: 1.75;
-    }
-
-    #articleOutput h1 {
-      font-size: 32px;
-      line-height: 1.25;
-      font-weight: 800;
-      color: #172033;
-      margin: 0 0 22px;
-      letter-spacing: -0.4px;
-    }
-
-    #articleOutput h2 {
-      font-size: 25px;
-      line-height: 1.35;
-      font-weight: 800;
-      color: #172033;
-      margin: 34px 0 13px;
-      letter-spacing: -0.2px;
-    }
-
-    #articleOutput h3 {
-      font-size: 20px;
-      line-height: 1.4;
-      font-weight: 700;
-      color: #253047;
-      margin: 26px 0 10px;
-    }
-
-    #articleOutput p {
-      margin: 0 0 17px;
-    }
-
-    #articleOutput strong {
-      font-weight: 700;
-      color: #172033;
-    }
-
-    #articleOutput ul,
-    #articleOutput ol {
-      margin: 0 0 19px 27px;
-      padding-left: 8px;
-    }
-
-    #articleOutput li {
-      margin-bottom: 8px;
-      padding-left: 3px;
-    }
-
-    #articleOutput code {
-      padding: 2px 5px;
-      border-radius: 5px;
-      background: #eef0f5;
-      font-family: Consolas, Monaco, monospace;
-      font-size: 0.92em;
-    }
-
-    #articleOutput a {
-      color: #5148d9;
-      text-decoration: underline;
-    }
-
-    #articleOutput blockquote {
-      margin: 20px 0;
-      padding: 12px 18px;
-      border-left: 4px solid #635bff;
-      background: #f4f3ff;
-      color: #4d5668;
-    }
-
-    #articleOutput table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 22px 0;
-      background: #ffffff;
-      font-size: 15px;
-    }
-
-    #articleOutput th,
-    #articleOutput td {
-      border: 1px solid #dfe4ed;
-      padding: 11px 12px;
-      text-align: left;
-      vertical-align: top;
-    }
-
-    #articleOutput th {
-      font-weight: 700;
-      background: #f5f7fb;
-      color: #172033;
-    }
-
-    .note {
-      margin-top: 15px;
-      color: #7a8392;
-      font-size: 12px;
-      text-align: center;
-    }
-
-    footer {
-      border-top: 1px solid #e5e9f2;
-      background: #ffffff;
-      text-align: center;
-      padding: 25px 20px;
-      color: #7a8392;
-      font-size: 13px;
-    }
-
-    @media (max-width: 700px) {
-      .hero {
-        margin-top: 35px;
-      }
-
-      .hero h1 {
-        font-size: 34px;
-      }
-
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .field.full {
-        grid-column: auto;
-      }
-
-      nav {
-        display: none;
-      }
-
-      .card {
-        padding: 20px;
-      }
-
-      .output-header {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      #articleOutput {
-        padding: 20px;
-        font-size: 15px;
-      }
-
-      #articleOutput h1 {
-        font-size: 27px;
-      }
-
-      #articleOutput h2 {
-        font-size: 22px;
-      }
-
-      #articleOutput h3 {
-        font-size: 18px;
-      }
-
-      #articleOutput table {
-        display: block;
-        overflow-x: auto;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Human Article Writer – Natural & SEO-Friendly Articles</title>
+<meta name="description" content="Create useful SEO-friendly articles and improve article clarity with a human editing tool.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#172033;--muted:#667085;--line:#e5e9f2;--purple:#635bff;--green:#16805d}
+body{font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:var(--ink);line-height:1.6}
+header{background:#fff;border-bottom:1px solid var(--line);padding:17px 20px;position:sticky;top:0;z-index:5}
+.header-inner{max-width:1050px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:18px}
+.logo{font-size:22px;font-weight:800}.logo span,.hero h1 span{color:var(--purple)}
+nav{display:flex;gap:20px}nav a{color:#596273;text-decoration:none;font-size:14px;font-weight:700}
+.hero{max-width:850px;margin:48px auto 28px;padding:0 20px;text-align:center}
+.badge{display:inline-block;background:#ebe9ff;color:#5148d9;border-radius:30px;padding:6px 12px;font-size:12px;font-weight:700;margin-bottom:15px}
+.hero h1{font-size:clamp(32px,5vw,44px);line-height:1.15;margin-bottom:15px}
+.hero p{color:var(--muted);font-size:17px;max-width:700px;margin:auto}
+.workspace{max-width:1050px;margin:30px auto 65px;padding:0 20px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px;margin-bottom:24px;box-shadow:0 8px 28px #1822380a}
+.card h2{font-size:22px;margin-bottom:6px}.intro{font-size:14px;color:#727b8c;margin-bottom:22px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.field{display:flex;flex-direction:column;gap:7px}.full{grid-column:1/-1}
+label{font-size:14px;font-weight:700}
+input,textarea,select{width:100%;border:1px solid #dce1eb;border-radius:10px;padding:12px 13px;font:15px Arial,sans-serif;color:var(--ink);background:#fff}
+input:focus,textarea:focus,select:focus{outline:2px solid #635bff33;border-color:var(--purple)}
+textarea{min-height:135px;resize:vertical}
+button{border:0;border-radius:9px;padding:12px 17px;font-size:14px;font-weight:700;cursor:pointer}
+button:disabled{opacity:.6;cursor:not-allowed}
+.primary{background:var(--purple);color:#fff}.human-btn{background:var(--green);color:#fff}.secondary{background:#ebe9ff;color:#5148d9;border:1px solid #d9d5ff}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.center{justify-content:center}
+.note{font-size:12px;color:#7a8392;margin-top:14px}
+.output{display:none;margin-top:22px}
+.output-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.article{border:1px solid var(--line);border-radius:12px;background:#fcfdff;padding:25px;overflow-wrap:anywhere;line-height:1.75}
+.article h1{font-size:30px;line-height:1.25;margin:0 0 18px}.article h2{font-size:24px;margin:28px 0 12px}.article h3{font-size:19px;margin:22px 0 9px}
+.article p{margin:0 0 15px}.article ul,.article ol{margin:0 0 17px 25px}.article li{margin-bottom:6px}
+.article strong{font-weight:700}.article blockquote{margin:18px 0;padding:12px 16px;border-left:4px solid var(--purple);background:#f4f3ff}
+.article table{width:100%;border-collapse:collapse;margin:18px 0;background:#fff}.article th,.article td{border:1px solid #dfe4ed;padding:9px;text-align:left;vertical-align:top}.article th{background:#f5f7fb}
+.status{font-size:14px;color:var(--muted);margin-top:12px;overflow-wrap:anywhere}
+footer{border-top:1px solid var(--line);background:#fff;text-align:center;padding:24px;color:#7a8392;font-size:13px}
+@media(max-width:700px){nav{gap:10px}nav a{font-size:12px}.grid{grid-template-columns:1fr}.full{grid-column:auto}.card{padding:19px}.article{padding:17px}.article h1{font-size:26px}.article h2{font-size:21px}}
+</style>
 </head>
-
 <body>
-
-<header>
-  <div class="header-inner">
-
-    <div class="logo">
-      Human<span>Article</span>Writer
-    </div>
-
-    <nav>
-      <a href="#writer">Article Writer</a>
-      <a href="#about">About</a>
-    </nav>
-
-  </div>
-</header>
+<header><div class="header-inner">
+  <div class="logo">Human<span>Article</span>Writer</div>
+  <nav><a href="#writer">Article Writer</a><a href="#humanizer">Humanizer</a><a href="#about">About</a></nav>
+</div></header>
 
 <main>
+<section class="hero">
+  <div class="badge">NATURAL • USEFUL • SEO-FRIENDLY</div>
+  <h1>Write Better Articles That Feel <span>Human</span></h1>
+  <p>Create useful, original and well-structured articles with natural language, clear explanations and a reader-first writing approach.</p>
+</section>
 
-  <section class="hero">
-
-    <div class="badge">
-      NATURAL • USEFUL • SEO-FRIENDLY
+<section class="workspace" id="writer">
+  <div class="card">
+    <h2>Article Writer</h2>
+    <p class="intro">Enter your topic and requirements to generate a complete article.</p>
+    <div class="grid">
+      <div class="field"><label for="keyword">Main Keyword</label><input id="keyword" type="text" maxlength="200" placeholder="Example: budget hotels near me"></div>
+      <div class="field"><label for="topic">Article Topic</label><input id="topic" type="text" maxlength="500" placeholder="Example: Best Budget Hotels Near Me"></div>
+      <div class="field"><label for="length">Article Length</label><select id="length"><option value="800">800 words</option><option value="1000" selected>1000 words</option><option value="1200">1200 words</option><option value="1500">1500 words</option></select></div>
+      <div class="field"><label for="tone">Writing Style</label><select id="tone"><option>Natural &amp; Human</option><option>Professional</option><option>Simple &amp; Easy</option><option>Informative</option></select></div>
+      <div class="field full"><label for="notes">Additional Instructions</label><textarea id="notes" maxlength="3000" placeholder="Audience, country, source details, tone preferences, or other requirements..."></textarea></div>
     </div>
+    <div class="actions center"><button id="generateBtn" class="primary" type="button">Generate Article</button></div>
+    <p class="note">Focused on useful information, original wording and clear writing.</p>
+  </div>
 
-    <h1>
-      Write Better Articles That Feel
-      <span>Human</span>
-    </h1>
-
-    <p>
-      Create useful, original and well-structured articles with natural language,
-      clear explanations and a reader-first writing approach.
-    </p>
-
-  </section>
-
-  <section class="workspace" id="writer">
-
-    <div class="card">
-
-      <h2>Article Writer</h2>
-
-      <p class="card-intro">
-        Enter your topic and requirements. The writing engine will create a
-        complete article designed for real readers and search visibility.
-      </p>
-
-      <div class="form-grid">
-
-        <div class="field">
-
-          <label for="keyword">
-            Main Keyword
-          </label>
-
-          <input
-            id="keyword"
-            type="text"
-            placeholder="Example: budget hotels near me"
-            autocomplete="off"
-          >
-
-        </div>
-
-        <div class="field">
-
-          <label for="topic">
-            Article Topic
-          </label>
-
-          <input
-            id="topic"
-            type="text"
-            placeholder="Example: Best Budget Hotels Near Me"
-            autocomplete="off"
-          >
-
-        </div>
-
-        <div class="field">
-
-          <label for="length">
-            Article Length
-          </label>
-
-          <select id="length">
-
-            <option value="800">
-              800 words
-            </option>
-
-            <option value="1000" selected>
-              1000 words
-            </option>
-
-            <option value="1200">
-              1200 words
-            </option>
-
-            <option value="1500">
-              1500 words
-            </option>
-
-          </select>
-
-        </div>
-
-        <div class="field">
-
-          <label for="tone">
-            Writing Style
-          </label>
-
-          <select id="tone">
-
-            <option value="Natural & Human" selected>
-              Natural & Human
-            </option>
-
-            <option value="Professional">
-              Professional
-            </option>
-
-            <option value="Simple & Easy">
-              Simple & Easy
-            </option>
-
-            <option value="Informative">
-              Informative
-            </option>
-
-          </select>
-
-        </div>
-
-        <div class="field full">
-
-          <label for="notes">
-            Additional Instructions
-          </label>
-
-          <textarea
-            id="notes"
-            placeholder="Optional: Add audience, country, source information, special requirements, tone preferences, or other details that matter..."
-          ></textarea>
-
-        </div>
-
+  <div class="card output" id="outputBox">
+    <div class="output-head">
+      <h2>Your Article</h2>
+      <div class="actions" style="margin:0">
+        <button id="humanizeGeneratedBtn" class="human-btn" type="button">Humanize This Article</button>
+        <button id="copyBtn" class="secondary" type="button">Copy Article</button>
       </div>
-
-      <div class="generate-area">
-
-        <button id="generateBtn" type="button">
-          Generate Article
-        </button>
-
-      </div>
-
-      <p class="note">
-        Focused on useful information, natural language, originality and clear writing.
-      </p>
-
     </div>
+    <div id="articleOutput" class="article"></div>
+    <p id="generatedStatus" class="status" role="status" aria-live="polite"></p>
+  </div>
 
-    <div class="card output" id="outputBox">
-
-      <div class="output-header">
-
-        <h2>
-          Your Article
-        </h2>
-
-        <button id="copyBtn" type="button">
-          Copy Article
-        </button>
-
-      </div>
-
-      <div id="articleOutput"></div>
-
+  <div class="card" id="humanizer">
+    <h2>Humanize Pasted Article</h2>
+    <p class="intro">Paste an existing article to improve clarity, flow and repetitive wording while preserving its meaning and factual details.</p>
+    <div class="field"><label for="humanizeInput">Your Article</label><textarea id="humanizeInput" maxlength="30000" placeholder="Paste your full article here..."></textarea></div>
+    <div class="field" style="margin-top:16px"><label for="humanizeNotes">Editing Instructions (optional)</label><textarea id="humanizeNotes" maxlength="3000" placeholder="Example: Keep it professional, preserve headings, use simple English..."></textarea></div>
+    <div class="actions">
+      <button id="humanizeBtn" class="human-btn" type="button">Humanize Pasted Article</button>
+      <button id="copyHumanizedBtn" class="secondary" type="button">Copy Humanized Article</button>
     </div>
-
-  </section>
-
+    <p class="note">Editing can improve readability, but cannot guarantee a particular AI-detector result. Review factual claims before publishing.</p>
+    <div id="humanizedOutput" class="article output"></div>
+    <p id="humanizeStatus" class="status" role="status" aria-live="polite"></p>
+  </div>
+</section>
 </main>
-
-<footer id="about">
-  Human Article Writer — focused on useful, natural and well-structured content.
-</footer>
+<footer id="about">Human Article Writer — focused on useful, natural and well-structured content.</footer>
 
 <script>
+"use strict";
 
-const WORKER_URL =
-  "https://human-article-writer.sophiacarter8757.workers.dev/";
+const WORKER_URL = "https://human-article-writer.sophiacarter8757.workers.dev/";
+const $ = (id) => document.getElementById(id);
 
+const generateBtn = $("generateBtn");
+const outputBox = $("outputBox");
+const articleOutput = $("articleOutput");
+const copyBtn = $("copyBtn");
+const humanizeGeneratedBtn = $("humanizeGeneratedBtn");
+const humanizeInput = $("humanizeInput");
+const humanizeNotes = $("humanizeNotes");
+const humanizeBtn = $("humanizeBtn");
+const copyHumanizedBtn = $("copyHumanizedBtn");
+const humanizedOutput = $("humanizedOutput");
+const humanizeStatus = $("humanizeStatus");
+const generatedStatus = $("generatedStatus");
 
-const generateBtn =
-  document.getElementById("generateBtn");
+let currentArticleMarkdown = "";
+let currentHumanizedMarkdown = "";
 
-const outputBox =
-  document.getElementById("outputBox");
-
-const articleOutput =
-  document.getElementById("articleOutput");
-
-const copyBtn =
-  document.getElementById("copyBtn");
-
-
-function escapeHtml(text) {
-
-  return String(text)
+function escapeHtml(value) {
+  return String(value)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-
+    .replace(/'/g, "&#39;");
 }
 
-
-/*
-  Clean common Markdown artifacts before rendering.
-  This does NOT change normal article wording.
-*/
-
-function cleanMarkdown(markdown) {
-
-  let text =
-    String(markdown || "")
-      .replace(/\r\n/g, "\n")
-      .replace(/\r/g, "\n");
-
-
-  /*
-    Remove Markdown code fences.
-  */
-
-  text =
-    text.replace(
-      /^\s*```(?:markdown|md|text)?\s*$/gim,
-      ""
-    );
-
-
-  /*
-    Remove escaped Markdown punctuation
-    commonly produced by generated output.
-  */
-
-  text =
-    text.replace(
-      /\\([\\`*_[\]{}#+\-=|>])/g,
-      "$1"
-    );
-
-
-  /*
-    Clean escaped slash artifacts before headings.
-    Examples:
-    //## Heading
-    /## Heading
-    \## Heading
-  */
-
-  text =
-    text.replace(
-      /^\s*\/{1,2}\s*(#{1,3})\s+/gm,
-      "$1 "
-    );
-
-
-  /*
-    Remove horizontal ASCII table borders.
-    Examples:
-    +-------------------+
-    +------+-----------+
-  */
-
-  text =
-    text.replace(
-      /^\s*\+[-+=:| ]+\+\s*$/gm,
-      ""
-    );
-
-
-  /*
-    Remove standalone Markdown horizontal rules.
-  */
-
-  text =
-    text.replace(
-      /^\s*(?:-{3,}|\*{3,}|_{3,})\s*$/gm,
-      ""
-    );
-
-
-  /*
-    Remove stray backslash-only lines.
-  */
-
-  text =
-    text.replace(
-      /^\s*\\+\s*$/gm,
-      ""
-    );
-
-
-  /*
-    Clean common accidental prefix symbols before
-    actual headings.
-  */
-
-  text =
-    text.replace(
-      /^\s*[=+~]+\s*(#{1,3})\s+/gm,
-      "$1 "
-    );
-
-
-  /*
-    If a heading accidentally contains repeated
-    heading markers such as ####, reduce them
-    to the supported H1-H3 hierarchy.
-  */
-
-  text =
-    text.replace(
-      /^\s*#{4,}\s+/gm,
-      "### "
-    );
-
-
-  /*
-    Remove excessive blank lines.
-  */
-
-  text =
-    text.replace(
-      /\n{4,}/g,
-      "\n\n"
-    );
-
-
-  return text.trim();
-
+function inlineMarkdown(value) {
+  let text = escapeHtml(value);
+  text = text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  text = text.replace(/__(.+?)__/g, "<strong>$1</strong>");
+  text = text.replace(/\*(.+?)\*/g, "<em>$1</em>");
+  text = text.replace(/`([^`]+)`/g, "<code>$1</code>");
+  return text;
 }
-
 
 function renderMarkdown(markdown) {
-
-  const cleanedMarkdown =
-    cleanMarkdown(markdown);
-
-
-  const safeText =
-    escapeHtml(cleanedMarkdown)
-      .replace(/\r\n/g, "\n")
-      .replace(/\r/g, "\n");
-
-
-  const lines =
-    safeText.split("\n");
+  const lines = String(markdown || "")
+    .replace(/\r\n?/g, "\n")
+    .replace(/^\s*```(?:markdown|md|text)?\s*$/gim, "")
+    .split("\n");
 
   let html = "";
-
   let paragraph = [];
-
-  let listType = null;
-
+  let listType = "";
   let tableRows = [];
 
-
   function flushParagraph() {
-
-    if (!paragraph.length) {
-      return;
-    }
-
-    const content =
-      paragraph.join(" ").trim();
-
-    if (content) {
-
-      html +=
-        "<p>" +
-        formatInline(content) +
-        "</p>";
-
-    }
-
+    if (!paragraph.length) return;
+    html += "<p>" + inlineMarkdown(paragraph.join(" ").trim()) + "</p>";
     paragraph = [];
-
   }
-
 
   function closeList() {
-
-    if (listType === "ul") {
-      html += "</ul>";
-    }
-
-    if (listType === "ol") {
-      html += "</ol>";
-    }
-
-    listType = null;
-
+    if (listType) html += listType === "ul" ? "</ul>" : "</ol>";
+    listType = "";
   }
-
 
   function flushTable() {
-
-    if (!tableRows.length) {
-      return;
-    }
-
-
-    if (tableRows.length < 2) {
-
-      tableRows.forEach(function(row) {
-
-        html +=
-          "<p>" +
-          formatInline(row.join(" • ")) +
-          "</p>";
-
-      });
-
+    if (!tableRows.length) return;
+    if (tableRows.length === 1) {
+      html += "<p>" + inlineMarkdown(tableRows[0].join(" · ")) + "</p>";
       tableRows = [];
-
       return;
-
     }
-
-
-    html += "<table>";
-
-    const header =
-      tableRows[0];
-
-    html += "<thead><tr>";
-
-
-    header.forEach(function(cell) {
-
-      html +=
-        "<th>" +
-        formatInline(cell.trim()) +
-        "</th>";
-
-    });
-
-
-    html += "</tr></thead>";
-
-    html += "<tbody>";
-
-
-    for (
-      let i = 1;
-      i < tableRows.length;
-      i++
-    ) {
-
+    html += "<table><thead><tr>";
+    tableRows[0].forEach(cell => html += "<th>" + inlineMarkdown(cell) + "</th>");
+    html += "</tr></thead><tbody>";
+    for (let i = 1; i < tableRows.length; i++) {
+      if (tableRows[i].every(cell => /^:?-{3,}:?$/.test(cell))) continue;
       html += "<tr>";
-
-
-      tableRows[i].forEach(function(cell) {
-
-        html +=
-          "<td>" +
-          formatInline(cell.trim()) +
-          "</td>";
-
-      });
-
-
+      tableRows[i].forEach(cell => html += "<td>" + inlineMarkdown(cell) + "</td>");
       html += "</tr>";
-
     }
-
-
     html += "</tbody></table>";
-
     tableRows = [];
-
   }
 
-
-  function isTableRow(line) {
-
-    return (
-      line.trim().startsWith("|") &&
-      line.trim().endsWith("|")
-    );
-
+  function parseRow(line) {
+    return line.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map(cell => cell.trim());
   }
 
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
 
-  function isTableSeparator(line) {
-
-    return /^\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)+\|?$/.test(
-      line.trim()
-    );
-
-  }
-
-
-  function parseTableRow(line) {
-
-    return line
-      .trim()
-      .replace(/^\|/, "")
-      .replace(/\|$/, "")
-      .split("|")
-      .map(function(cell) {
-        return cell.trim();
-      });
-
-  }
-
-
-  function formatInline(text) {
-
-    let result = text;
-
-
-    /*
-      Remove any remaining escaped Markdown
-      characters that survived preprocessing.
-    */
-
-    result =
-      result.replace(
-        /\\([\\`*_[\]{}#+\-=|>])/g,
-        "$1"
-      );
-
-
-    /*
-      Bold.
-    */
-
-    result =
-      result.replace(
-        /\*\*(.+?)\*\*/g,
-        "<strong>$1</strong>"
-      );
-
-
-    result =
-      result.replace(
-        /__(.+?)__/g,
-        "<strong>$1</strong>"
-      );
-
-
-    /*
-      Inline code.
-    */
-
-    result =
-      result.replace(
-        /`(.+?)`/g,
-        "<code>$1</code>"
-      );
-
-
-    return result;
-
-  }
-
-
-  for (
-    let i = 0;
-    i < lines.length;
-    i++
-  ) {
-
-    const line =
-      lines[i];
-
-    const trimmed =
-      line.trim();
-
-
-    /*
-      Ignore ASCII table border rows.
-    */
-
-    if (
-      /^\+[-+=:| ]+\+$/.test(trimmed)
-    ) {
-
+    if (!line) {
       flushParagraph();
       closeList();
-
+      flushTable();
       continue;
-
     }
 
-
-    /*
-      Markdown tables.
-    */
-
-    if (isTableRow(trimmed)) {
-
+    if (/^\|.*\|$/.test(line)) {
       flushParagraph();
       closeList();
-
-
-      if (
-        i + 1 < lines.length &&
-        isTableSeparator(lines[i + 1])
-      ) {
-
-        tableRows = [
-          parseTableRow(line)
-        ];
-
-        i++;
-
-
-        while (
-          i + 1 < lines.length &&
-          isTableRow(lines[i + 1])
-        ) {
-
-          i++;
-
-          tableRows.push(
-            parseTableRow(lines[i])
-          );
-
-        }
-
-
-        flushTable();
-
-        continue;
-
-      }
-
-    }
-
-
-    /*
-      Empty line.
-    */
-
-    if (!trimmed) {
-
-      flushParagraph();
-      closeList();
-
+      tableRows.push(parseRow(line));
       continue;
-
     }
+    flushTable();
 
-
-    /*
-      H3.
-    */
-
-    if (/^###\s+/.test(trimmed)) {
-
+    if (/^#{1,3}\s+/.test(line)) {
       flushParagraph();
       closeList();
-
-      const heading =
-        trimmed.replace(
-          /^###\s+/,
-          ""
-        );
-
-      html +=
-        "<h3>" +
-        formatInline(heading) +
-        "</h3>";
-
+      const level = (line.match(/^#+/)[0]).length;
+      const heading = line.replace(/^#{1,3}\s+/, "");
+      html += "<h" + level + ">" + inlineMarkdown(heading) + "</h" + level + ">";
       continue;
-
     }
 
-
-    /*
-      H2.
-    */
-
-    if (/^##\s+/.test(trimmed)) {
-
+    const unordered = /^[-*]\s+/.test(line);
+    const ordered = /^\d+\.\s+/.test(line);
+    if (unordered || ordered) {
       flushParagraph();
-      closeList();
-
-      const heading =
-        trimmed.replace(
-          /^##\s+/,
-          ""
-        );
-
-      html +=
-        "<h2>" +
-        formatInline(heading) +
-        "</h2>";
-
-      continue;
-
-    }
-
-
-    /*
-      H1.
-    */
-
-    if (/^#\s+/.test(trimmed)) {
-
-      flushParagraph();
-      closeList();
-
-      const heading =
-        trimmed.replace(
-          /^#\s+/,
-          ""
-        );
-
-      html +=
-        "<h1>" +
-        formatInline(heading) +
-        "</h1>";
-
-      continue;
-
-    }
-
-
-    /*
-      Unordered list.
-    */
-
-    if (/^[-*]\s+/.test(trimmed)) {
-
-      flushParagraph();
-
-
-      if (listType !== "ul") {
-
+      const wanted = unordered ? "ul" : "ol";
+      if (listType !== wanted) {
         closeList();
-
-        html += "<ul>";
-
-        listType = "ul";
-
+        html += wanted === "ul" ? "<ul>" : "<ol>";
+        listType = wanted;
       }
-
-
-      const item =
-        trimmed.replace(
-          /^[-*]\s+/,
-          ""
-        );
-
-      html +=
-        "<li>" +
-        formatInline(item) +
-        "</li>";
-
+      const item = line.replace(unordered ? /^[-*]\s+/ : /^\d+\.\s+/, "");
+      html += "<li>" + inlineMarkdown(item) + "</li>";
       continue;
-
     }
 
-
-    /*
-      Ordered list.
-    */
-
-    if (/^\d+\.\s+/.test(trimmed)) {
-
-      flushParagraph();
-
-
-      if (listType !== "ol") {
-
-        closeList();
-
-        html += "<ol>";
-
-        listType = "ol";
-
-      }
-
-
-      const item =
-        trimmed.replace(
-          /^\d+\.\s+/,
-          ""
-        );
-
-      html +=
-        "<li>" +
-        formatInline(item) +
-        "</li>";
-
-      continue;
-
-    }
-
-
-    /*
-      Blockquote.
-    */
-
-    if (/^&gt;\s?/.test(trimmed)) {
-
+    if (/^&gt;\s?/.test(escapeHtml(line))) {
       flushParagraph();
       closeList();
-
-      const quote =
-        trimmed.replace(
-          /^&gt;\s?/,
-          ""
-        );
-
-      html +=
-        "<blockquote>" +
-        formatInline(quote) +
-        "</blockquote>";
-
+      html += "<blockquote>" + inlineMarkdown(line.replace(/^>\s?/, "")) + "</blockquote>";
       continue;
-
     }
-
-
-    /*
-      Ignore remaining obvious ASCII border
-      fragments instead of displaying them.
-    */
-
-    if (
-      /^[+|=\-:]{4,}$/.test(
-        trimmed.replace(/\s/g, "")
-      )
-    ) {
-
-      flushParagraph();
-      closeList();
-
-      continue;
-
-    }
-
 
     closeList();
-
-    paragraph.push(trimmed);
-
+    paragraph.push(line);
   }
-
 
   flushParagraph();
   closeList();
   flushTable();
-
-
   return html;
-
 }
 
+async function readJsonResponse(response) {
+  let data;
+  try {
+    data = await response.json();
+  } catch {
+    throw new Error("The server returned an invalid response.");
+  }
+  if (!response.ok || data?.success === false) {
+    throw new Error(data?.error || "The request failed. Please try again.");
+  }
+  return data;
+}
 
-/*
-  Generate Article.
-*/
+async function requestHumanization(article, instructions) {
+  const response = await fetch(WORKER_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      action: "humanize",
+      article,
+      style: $("tone").value,
+      instructions
+    })
+  });
+  const data = await readJsonResponse(response);
+  if (!data.article) throw new Error("The editing engine returned no article.");
+  return data.article;
+}
 
-generateBtn.addEventListener(
-  "click",
-  async function () {
+generateBtn.addEventListener("click", async () => {
+  const keyword = $("keyword").value.trim();
+  const topic = $("topic").value.trim();
+  const length = $("length").value;
+  const style = $("tone").value;
+  const instructions = $("notes").value.trim();
 
-    const keyword =
-      document
-        .getElementById("keyword")
-        .value
-        .trim();
+  if (!keyword || !topic) {
+    alert("Please enter both the main keyword and article topic.");
+    return;
+  }
 
+  outputBox.style.display = "block";
+  articleOutput.innerHTML = "<p>Writing your article. Please wait...</p>";
+  generatedStatus.textContent = "";
+  generateBtn.disabled = true;
+  generateBtn.textContent = "Writing Article...";
 
-    const topic =
-      document
-        .getElementById("topic")
-        .value
-        .trim();
-
-
-    const length =
-      document
-        .getElementById("length")
-        .value;
-
-
-    const tone =
-      document
-        .getElementById("tone")
-        .value;
-
-
-    const notes =
-      document
-        .getElementById("notes")
-        .value
-        .trim();
-
-
-    if (!keyword || !topic) {
-
-      alert(
-        "Please enter both the main keyword and article topic."
-      );
-
-      return;
-
-    }
-
-
-    outputBox.style.display =
-      "block";
-
-
-    articleOutput.innerHTML =
-      "<p><strong>Writing your article...</strong></p>" +
-      "<p>The writing engine is preparing your content. Please wait.</p>";
-
-
-    generateBtn.disabled =
-      true;
-
-
-    generateBtn.textContent =
-      "Writing Article...";
-
-
-    outputBox.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
+  try {
+    const response = await fetch(WORKER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ keyword, topic, length, style, instructions })
     });
-
-
-    try {
-
-      const response =
-        await fetch(
-          WORKER_URL,
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-
-              keyword: keyword,
-
-              topic: topic,
-
-              length: length,
-
-              style: tone,
-
-              instructions: notes
-
-            })
-
-          }
-        );
-
-
-      let data;
-
-
-      try {
-
-        data =
-          await response.json();
-
-      } catch (error) {
-
-        throw new Error(
-          "The server returned an invalid response."
-        );
-
-      }
-
-
-      if (!response.ok) {
-
-        throw new Error(
-          data.error ||
-          "The article could not be generated."
-        );
-
-      }
-
-
-      if (!data.article) {
-
-        throw new Error(
-          "The writing engine returned no article."
-        );
-
-      }
-
-
-      articleOutput.innerHTML =
-        renderMarkdown(data.article);
-
-
-    } catch (error) {
-
-      console.error(
-        "Generation error:",
-        error
-      );
-
-
-      articleOutput.innerHTML =
-        "<p><strong>Unable to generate the article.</strong></p>" +
-        "<p>Please try again.</p>" +
-        "<p>Error: " +
-        escapeHtml(
-          error?.message ||
-          "Unknown error"
-        ) +
-        "</p>";
-
-    }
-
-
-    generateBtn.disabled =
-      false;
-
-
-    generateBtn.textContent =
-      "Generate Article";
-
+    const data = await readJsonResponse(response);
+    if (!data.article) throw new Error("The writing engine returned no article.");
+    currentArticleMarkdown = data.article;
+    articleOutput.innerHTML = renderMarkdown(data.article);
+    generatedStatus.textContent = "Article generated. You can copy it or use Humanize This Article.";
+    outputBox.scrollIntoView({ behavior: "smooth", block: "start" });
+  } catch (error) {
+    articleOutput.innerHTML = "";
+    generatedStatus.textContent = "Generation failed: " + (error?.message || "Please try again.");
+  } finally {
+    generateBtn.disabled = false;
+    generateBtn.textContent = "Generate Article";
   }
-);
-
-
-/*
-  Copy Article with rich formatting.
-  This preserves headings, paragraphs,
-  lists, tables and basic formatting
-  when the destination supports rich paste.
-*/
-
-copyBtn.addEventListener(
-  "click",
-  async function () {
-
-    const plainText =
-      articleOutput.innerText.trim();
-
-
-    const richHtml =
-      articleOutput.innerHTML.trim();
-
-
-    if (!plainText) {
-      return;
-    }
-
-
-    try {
-
-      if (
-        navigator.clipboard &&
-        window.ClipboardItem
-      ) {
-
-        const clipboardData = {
-
-          "text/plain": new Blob(
-            [plainText],
-            {
-              type: "text/plain"
-            }
-          ),
-
-          "text/html": new Blob(
-            [richHtml],
-            {
-              type: "text/html"
-            }
-          )
-
-        };
-
-
-        await navigator.clipboard.write(
-          [
-            new ClipboardItem(
-              clipboardData
-            )
-          ]
-        );
-
-
-      } else if (
-        navigator.clipboard &&
-        navigator.clipboard.writeText
-      ) {
-
-        await navigator.clipboard.writeText(
-          plainText
-        );
-
-
-      } else {
-
-        const range =
-          document.createRange();
-
-
-        range.selectNodeContents(
-          articleOutput
-        );
-
-
-        const selection =
-          window.getSelection();
-
-
-        selection.removeAllRanges();
-
-        selection.addRange(range);
-
-
-        const successful =
-          document.execCommand("copy");
-
-
-        selection.removeAllRanges();
-
-
-        if (!successful) {
-
-          throw new Error(
-            "Copy command failed."
-          );
-
-        }
-
-      }
-
-
-      copyBtn.textContent =
-        "Copied!";
-
-
-      setTimeout(
-        function () {
-
-          copyBtn.textContent =
-            "Copy Article";
-
-        },
-        1500
-      );
-
-
-    } catch (error) {
-
-      console.error(
-        "Copy error:",
-        error
-      );
-
-
-      try {
-
-        const range =
-          document.createRange();
-
-
-        range.selectNodeContents(
-          articleOutput
-        );
-
-
-        const selection =
-          window.getSelection();
-
-
-        selection.removeAllRanges();
-
-        selection.addRange(range);
-
-
-        const successful =
-          document.execCommand("copy");
-
-
-        selection.removeAllRanges();
-
-
-        if (!successful) {
-
-          throw new Error(
-            "Fallback copy failed."
-          );
-
-        }
-
-
-        copyBtn.textContent =
-          "Copied!";
-
-
-        setTimeout(
-          function () {
-
-            copyBtn.textContent =
-              "Copy Article";
-
-          },
-          1500
-        );
-
-
-      } catch (fallbackError) {
-
-        alert(
-          "Unable to copy the article. Please select the article manually and copy it."
-        );
-
-      }
-
-    }
-
+});
+
+humanizeGeneratedBtn.addEventListener("click", async () => {
+  const article = currentArticleMarkdown.trim();
+  if (!article) {
+    alert("Please generate an article first.");
+    return;
   }
-);
 
+  humanizeGeneratedBtn.disabled = true;
+  humanizeGeneratedBtn.textContent = "Humanizing...";
+  generatedStatus.textContent = "Editing the generated article. Please wait.";
+
+  try {
+    const result = await requestHumanization(article, $("notes").value.trim());
+    currentHumanizedMarkdown = result;
+    currentArticleMarkdown = result;
+    articleOutput.innerHTML = renderMarkdown(result);
+    generatedStatus.textContent = "Article editing completed. Please review it before publishing.";
+  } catch (error) {
+    generatedStatus.textContent = "Humanizing failed: " + (error?.message || "Please try again.");
+  } finally {
+    humanizeGeneratedBtn.disabled = false;
+    humanizeGeneratedBtn.textContent = "Humanize This Article";
+  }
+});
+
+humanizeBtn.addEventListener("click", async () => {
+  const article = humanizeInput.value.trim();
+
+  if (!article) {
+    alert("Please paste an article first.");
+    humanizeInput.focus();
+    return;
+  }
+  if (article.length > 30000) {
+    alert("Please keep the article under 30,000 characters.");
+    return;
+  }
+
+  humanizeBtn.disabled = true;
+  humanizeBtn.textContent = "Humanizing...";
+  humanizeStatus.textContent = "Editing your article. Please wait...";
+  humanizedOutput.style.display = "block";
+  humanizedOutput.innerHTML = "<p>Humanizing your article...</p>";
+
+  try {
+    const result = await requestHumanization(article, humanizeNotes.value.trim());
+    currentHumanizedMarkdown = result;
+    humanizedOutput.innerHTML = renderMarkdown(result);
+    humanizeStatus.textContent = "Your edited article is ready. Please review facts before publishing.";
+    humanizedOutput.scrollIntoView({ behavior: "smooth", block: "start" });
+  } catch (error) {
+    humanizedOutput.innerHTML = "";
+    humanizeStatus.textContent = "Humanizing failed: " + (error?.message || "Please try again.");
+  } finally {
+    humanizeBtn.disabled = false;
+    humanizeBtn.textContent = "Humanize Pasted Article";
+  }
+});
+
+async function copyText(text) {
+  if (!text) throw new Error("There is no article to copy yet.");
+  if (navigator.clipboard && window.isSecureContext) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+  const temp = document.createElement("textarea");
+  temp.value = text;
+  temp.style.position = "fixed";
+  temp.style.opacity = "0";
+  document.body.appendChild(temp);
+  temp.select();
+  const ok = document.execCommand("copy");
+  temp.remove();
+  if (!ok) throw new Error("Copy failed. Please select the article and copy it manually.");
+}
+
+copyBtn.addEventListener("click", async () => {
+  try {
+    await copyText(currentArticleMarkdown || articleOutput.innerText.trim());
+    copyBtn.textContent = "Copied!";
+    setTimeout(() => copyBtn.textContent = "Copy Article", 1500);
+  } catch (error) {
+    alert(error?.message || "Unable to copy the article.");
+  }
+});
+
+copyHumanizedBtn.addEventListener("click", async () => {
+  try {
+    await copyText(currentHumanizedMarkdown);
+    copyHumanizedBtn.textContent = "Copied!";
+    setTimeout(() => copyHumanizedBtn.textContent = "Copy Humanized Article", 1500);
+  } catch (error) {
+    alert(error?.message || "Unable to copy the article.");
+  }
+});
 </script>
-
 </body>
 </html>
